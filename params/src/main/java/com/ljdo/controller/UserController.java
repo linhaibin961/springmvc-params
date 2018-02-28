@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +66,40 @@ public class UserController {
      */
     @RequestMapping("test04")
     @ResponseBody
-    public String test04(@RequestBody User user){
+    public User test04(@RequestBody User user){
+        System.out.println("!!!!!!!!!!!!" + user.toString());
+        return user;
+    }
+    /**
+     * 对象
+     * @param user
+     * @return
+     */
+    @RequestMapping("test041")
+    @ResponseBody
+    public String test041(@RequestBody User user) {
+        System.out.println("!!!!!!!!!!!!" + user.toString());
+        /* 在实际运用中，不会返回String类型
+        当返回String类型时，
+        前端如果使用dataType:"json",（设置返回的类型）这个时会报parseError,
+        如果使用dataType:"text"则不会报错
+        function test041(){
+            var params = {name:"小花", age:18, height:19.87, hasGirl:true, likes:"MOVIE"};
+            console.info("a1");
+            console.info(JSON.stringify(params));
+            $.ajax({
+                    type:"post",
+                    url:"/test041",
+                    dataType:"text",
+//                dataType:"json",//设置返回的类型
+                    processData : false,
+                    contentType : 'application/json', //设置请求头信息
+                    data:JSON.stringify(params),
+                    success:function(data){
+                alert(data);
+            }
+            });
+        }*/
         return user.toString();
     }
 
@@ -99,7 +133,7 @@ public class UserController {
     @RequestMapping("test07")
     @ResponseBody
     public String test07(@RequestBody User[] users){
-        return users.toString();
+        return Arrays.toString(users);
     }
 
     /**
@@ -132,7 +166,7 @@ public class UserController {
     @RequestMapping("test10")
     @ResponseBody
     public String test10(@RequestBody String[] str){
-        return str.toString();
+        return Arrays.toString(str);
     }
 
     /**

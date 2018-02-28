@@ -36,17 +36,18 @@
     <h2>${index},<span style="color:red;font-weight: 600;">注意：以下基于json方式传递参数的必须在配置MappingJackson2HttpMessageConverter下才生效，不然报错。下面有一点要注意的，当dataType指定为json的时候，后台返回一定是json对象，这一点可能容易忽略，否则无法得到返回值</span></h2>
     <hr>
     <div class="box">
-        <button onclick="test01()">简单的参数传递01</button>
-        <button onclick="test02()">简单的参数传递02-@PathVariable</button>
-        <button onclick="test03()">简单的对象传递01</button>
-        <button onclick="test04()">简单的对象传递02-@requestBody</button>
-        <button onclick="test05()">简单的List&lt;String&gt;集合传递-@RequestParam("list[]") 注意[]</button>
-        <button onclick="test06()">List&lt;User&gt;集合传递-@RequestBody</button>
-        <button onclick="test07()">User[]数组传递-@RequestBody</button>
-        <button onclick="test08()">List&lt;Map&lt;String,Object&gt;&gt;传递-@RequestBody</button>
-        <button onclick="test09()">对象（有对象集合）传递-@RequestBody</button>
-        <button onclick="test10()">String数组传递-@requestBody</button>
-        <button onclick="test11()">PathVariable 奇葩的Integer数组传递方式（慎用）</button>
+        <button onclick="test01()">test01简单的参数传递01</button>
+        <button onclick="test02()">test02简单的参数传递02-@PathVariable</button>
+        <button onclick="test03()">test03简单的对象传递01</button>
+        <button onclick="test04()">test04简单的对象传递02-@requestBody</button>
+        <button onclick="test041()">test041简单的对象传递02-@requestBody</button>
+        <button onclick="test05()">test05简单的List&lt;String&gt;集合传递-@RequestParam("list[]") 注意[]</button>
+        <button onclick="test06()">test06List&lt;User&gt;集合传递-@RequestBody</button>
+        <button onclick="test07()">test07User[]数组传递-@RequestBody</button>
+        <button onclick="test08()">test08List&lt;Map&lt;String,Object&gt;&gt;传递-@RequestBody</button>
+        <button onclick="test09()">test09对象（有对象集合）传递-@RequestBody</button>
+        <button onclick="test10()">test10String数组传递-@requestBody</button>
+        <button onclick="test11()">test11PathVariable 奇葩的Integer数组传递方式（慎用）</button>
     </div>
 
     <script>
@@ -79,6 +80,7 @@
                 url:"/test03",
                 data:params,
                 success:function(data){
+                    console.log("aaa");
                     alert(data);
                 }
             });
@@ -86,11 +88,37 @@
 
         function test04(){
             var params = {name:"小花", age:18, height:19.87, hasGirl:true, likes:"MOVIE"};
+            console.info(JSON.stringify(params));
             $.ajax({
                 type:"post",
                 url:"/test04",
                 dataType:"json",
-                contentType : 'application/json;charset=utf-8', //设置请求头信息
+                processData : false,
+                contentType : 'application/json', //设置请求头信息
+                data:JSON.stringify(params),
+                success:function(data){
+                    console.info(JSON.stringify(data));
+                    alert(data);
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.info("XMLHttpRequest ：" + XMLHttpRequest);
+                    console.info("出现异常，异常信息 ：" + textStatus);
+                    console.info("errorThrown ：" + errorThrown);
+                }
+            });
+        }
+
+        function test041(){
+            var params = {name:"小花", age:18, height:19.87, hasGirl:true, likes:"MOVIE"};
+            console.info("a1");
+            console.info(JSON.stringify(params));
+            $.ajax({
+                type:"post",
+                url:"/test041",
+                dataType:"text",
+//                dataType:"json",//设置返回的类型
+                processData : false,
+                contentType : 'application/json', //设置请求头信息
                 data:JSON.stringify(params),
                 success:function(data){
                     alert(data);
@@ -121,7 +149,7 @@
             $.ajax({
                 type:"post",
                 url:"/test06",
-                dataType:"json",
+                dataType:"text",
                 contentType : 'application/json;charset=utf-8', //设置请求头信息
                 data:JSON.stringify(users),//将对象序列化成JSON字符串
                 success:function(data){
@@ -141,7 +169,7 @@
             $.ajax({
                 type:"post",
                 url:"/test07",
-                dataType:"json",
+                dataType:"text",
                 contentType : 'application/json;charset=utf-8', //设置请求头信息
                 data:JSON.stringify(users),//将对象序列化成JSON字符串
                 success:function(data){
@@ -159,7 +187,7 @@
             $.ajax({
                 type:"post",
                 url:"/test08",
-                dataType:"json",
+                dataType:"text",
                 contentType : 'application/json;charset=utf-8', //设置请求头信息
                 data:JSON.stringify(list),//将对象序列化成JSON字符串
                 success:function(data){
@@ -181,7 +209,7 @@
             $.ajax({
                 type:"post",
                 url:"/test09",
-                dataType:"json",
+                dataType:"text",
                 contentType : 'application/json;charset=utf-8', //设置请求头信息
                 data:JSON.stringify(list),//将对象序列化成JSON字符串
                 success:function(data){
@@ -197,7 +225,7 @@
             $.ajax({
                 type:"post",
                 url:"/test10",
-                dataType:"json",
+                dataType:"text",
                 contentType : 'application/json;charset=utf-8', //设置请求头信息
                 data:JSON.stringify(str),//将对象序列化成JSON字符串
                 success:function(data){

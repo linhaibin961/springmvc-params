@@ -1,5 +1,7 @@
 # springmvc-params
 
+## 访问地址 http://localhost:8080/index
+
 ### 总结 springmvc常用的接受参数方式：
 
 * 普通参数传递方式
